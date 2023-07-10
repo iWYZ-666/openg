@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自己填</title>
+    <script src="../static/jquery-3.7.0.min.js"></script>
+    <script src="../static/only.js"></script>
+</head>
+<body>
+    <form onsubmit="return false;">
+        <label>
+            仓库:
+            <select id="repository" onchange="getYears()">
+                <option value="0">--请选择一个仓库--</option>
+                {% for x in names %}
+                <option value="{{ x }}">{{ x }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>
+            年份:
+            <select id="year" onchange="getMonths()">
+
+            </select>
+        </label>
+        <label>月份:
+            <select id="month">
+
+            </select>
+        </label>
+
+        <label>
+            <input type="button" onclick="sendPost()">
+        </label>
+    </form>
+</body>
+</html>
