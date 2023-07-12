@@ -2,12 +2,11 @@
 // var chart = echarts.init(container);
 
 var chartDom = document.getElementById('main');
-var chart = echarts.init(chartDom)
+var bigData
 var year = 0
 var month = 0
 var repository = ""
 var isMin = false
-var bigData
 var typeMap = new Map([
     ['r', 'repo'], ['i', 'issue'], ['p', 'pull'], ['u', 'user']
 ]);
@@ -49,6 +48,7 @@ var setLeaderboard = graph => {
 }
 
 var setDetails = (graph, node) => {
+    console.log(node)
     clearDiv('details_table');
     let table = document.getElementById('details_table');
     addRow(table, ['From', 'Ratio', 'Value', 'OpenRank']);
@@ -68,6 +68,7 @@ var setDetails = (graph, node) => {
 }
 
 var onGraphDataLoaded = graph => {
+    var chart = echarts.init(chartDom)
     setLeaderboard(graph);
     let nodes = graph.nodes.map(node => {
         return {
@@ -125,7 +126,7 @@ var onGraphDataLoaded = graph => {
     };
     chart.setOption(option);
     chart.on('dblclick', function (params) {
-        setDetails(graph, graph.nodes.find(i => i.id === params.data.id));
+        setDetails(bigData, bigData.nodes.find(i => i.id === params.data.id));
     });
 }
 

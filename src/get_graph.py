@@ -49,14 +49,14 @@ def dataframe2json(df):
     # month_pattern = re.compile(r'month:([^,]),')
     c_pattern = re.compile(r'([ripu])')
     for _, data in df.iterrows():
-        id1 = int(data[0]['id'])
-        id2 = int(data[1]['id'])
+        id1 = str(data[0]['id'])
+        id2 = str(data[1]['id'])
         if id1 not in ids:
             process_node(data[0], id1, ids, c_pattern, nodes)
         if id2 not in ids:
             process_node(data[1], id2, ids, c_pattern, nodes)
-        sid = int(data[2].start_node['id'])
-        tid = int(data[2].end_node['id'])
+        sid = str(data[2].start_node['id'])
+        tid = str(data[2].end_node['id'])
         w = float(data[2]['w'])
         links.append({'s': sid, 't': tid, 'w': w})
     return {'nodes': nodes, 'links': links}
