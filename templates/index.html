@@ -2,36 +2,193 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>自己填</title>
     <script src="../static/jquery-3.7.0.min.js"></script>
-    <script src="../static/only.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<!--    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <title>Home</title>
+    <script src=" https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
+
+
+    <style>
+        body {
+            background-image: url('../static/background.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        .custom-select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #f8f9fa;
+            /* border: 1px solid #ced4da;
+            padding: 10px; */
+            border-radius: 4px;
+            width: 200px;
+            font-size: 16px;
+            color: #495057;
+            cursor: pointer;
+        }
+
+        .custom-select:focus {
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+    </style>
 </head>
 <body>
-    <form onsubmit="return false;">
-        <label>
-            仓库:
-            <select id="repository" onchange="getYears()">
-                <option value="0">--请选择一个仓库--</option>
-                {% for x in names %}
-                <option value="{{ x }}">{{ x }}</option>
-                {% endfor %}
-            </select>
-        </label>
-        <label>
-            年份:
-            <select id="year" onchange="getMonths()">
 
-            </select>
-        </label>
-        <label>月份:
-            <select id="month">
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#" >
+          <img src="../static/logo.png" alt="Logo" style="width: 75px; height: auto;">
+        </a>
+        <div class="col-md-8 mx-auto" style="color:white;float:left" >
+          <form onsubmit="return false;">
+              <label style="letter-spacing: 20px; text-indent: 20px;">
 
-            </select>
-        </label>
+                  <select id="repository" onchange="getYears()" class="custom-select">
+                      <option value="0">--请选择一个仓库--</option>
+                      {% for x in names %}
+                        <option value="{{ x }}">{{ x }}</option>
+                      {% endfor %}
+                  </select>
+              </label>
+              <label style="letter-spacing: 20px; text-indent: 20px;">
 
-        <label>
-            <input type="button" onclick="sendPost()">
-        </label>
-    </form>
+                  <!-- <select id="year" onchange="getMonths()">
+
+                  </select> -->
+                  <select id="year" class="custom-select" onchange="getMonths()">
+                    <!-- 这是测试数据 后面把names改成year？ -->
+                    <!-- <option selected>选择项</option>
+                    <option value="1">选项1</option>
+                    <option value="2">选项2</option>
+                    <option value="3">选项3</option> -->
+                    <option selected>--请选择年份--</option>
+
+                  </select>
+              </label>
+
+
+
+              <label style="letter-spacing: 20px; text-indent: 20px;">
+
+                  <!-- <select id="month">
+
+                  </select> -->
+                  <select id="month" class="custom-select">
+                    <!-- 这是测试数据 后面把names改成year？ -->
+                    <!-- <option selected>选择项</option>
+                    <option value="1">选项1</option>
+                    <option value="2">选项2</option>
+                    <option value="3">选项3</option> -->
+                    <option selected>--请选择月份--</option>
+
+                  </select>
+              </label>
+
+              <label style="letter-spacing: 20px; text-indent: 20px;">
+                 <button type="button" class="btn btn-primary" onclick="sendPost()">确定</button>
+                  <!-- <input type="button" onclick="sendPost()"> -->
+              </label>
+          </form>
+      </div>
+        <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Pricing</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown link
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button id="search" class="btn btn-outline-success" type="submit">Search</button>
+        </form> -->
+      </div>
+    </nav>
+
+      <br>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-7 mx-auto">
+          <div id="main" style="width: 900px;height:900px;"></div>
+        </div>
+        <div class="col-md-2.6 mx-auto">
+          <div id="details" class="bordered">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title" style="text-align: center;">Details</h5>
+                <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+              </div>
+            </div>
+            <div id="details_div" class="scrollit">
+            <!-- <table id="details_table" class="table table-striped"></table> -->
+            <table id="details_table" class="table">
+              <thead>
+                <tr>
+                  <th scope="col">From</th>
+                  <th scope="col">Ratio</th>
+                  <th scope="col">Value</th>
+                  <th scope="col">OpenRank</th>
+                </tr>
+              </thead>
+            </table>
+            </div>
+        </div>
+        </div>
+        <div class="col-md-2.6 mx-auto">
+          <div id="main_1" class="bordered">
+            <div id="graph" class="bordered"></div>
+            <div id="control" class="bordered">
+            <div id="list" class="bordered">
+                <!-- <div id="title">
+                <h2>Leaderboard</h2>
+                </div> -->
+                <div id="leaderboard_div">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title" style="text-align: center;">Leaderboard</h5>
+                  </div>
+                </div>
+                <table id="leaderboard_table" class="table"> </table>
+                </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<script src="../static/draw.js"></script>
+<script src="../static/func.js"></script>
+
 </body>
 </html>

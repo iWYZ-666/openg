@@ -1,15 +1,3 @@
-var year = 0
-var month = 0
-var repository = ""
-var isMin = false
-
-function displayEcharts(res) {
-
-}
-
-function displayTable(res) {
-
-}
 
 function getYears() {
     let repository = $("#repository").find('option:selected').val()
@@ -23,6 +11,7 @@ function getYears() {
             console.log(res)
             let years = res["years"]
             $("#year").find("option").remove()
+            $("#year").append(new Option("--请选择年份--"))
             for (let i = 0; i < years.length; i++) {
                 $("#year").append(new Option(years[i], years[i]))
             }
@@ -53,6 +42,7 @@ function getMonths() {
             console.log(res)
             let months = res["months"]
             $("#month").find("option").remove()
+            $("#month").append(new Option("--请选择月份--"))
             for (let i = 0; i < months.length; i++) {
                 $("#month").append(new Option(months[i], months[i]))
             }
@@ -105,9 +95,8 @@ function sendPost() {
     }),
     dataType: "json",
     success: function (res) {
-            displayEcharts(res)
-            displayTable(res)
             console.log(res)
+            drawGraph(res)
         }
     ,
     error: function (res) {
