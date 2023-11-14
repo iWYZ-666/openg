@@ -29,7 +29,8 @@ for file_name in file_names:
     year, month = t.split('-', 2)
     end_index = file_name.find(t)
     name = file_name[0: end_index - 1]
-    insert_sql = "INSERT INTO graphs values ('{}', {}, {})".format(name, year, month)
+    insert_sql = f"INSERT INTO graphs values ('{name}', {year}, {month})"
+    cur.execute(insert_sql)
     with open(JSON_PATH + file_name, 'r') as f:
         print('processing ' + file_name)
         js_data = json.loads(f.read())
