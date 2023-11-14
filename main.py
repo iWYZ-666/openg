@@ -1,8 +1,16 @@
 from flask import Flask, request, render_template, jsonify
+import sys
+import os
+
+main_file_path = os.path.abspath(__file__)
+main_dir = os.path.dirname(main_file_path)
+src_dir = os.path.join(main_dir, 'src')
+print(src_dir)
+sys.path.append(src_dir)
+
 from src.get_graph import get_graph, get_repository_names, get_years, get_months, get_min_graph
 
 app = Flask(__name__)
-
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -40,4 +48,4 @@ def point():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=5000)

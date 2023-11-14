@@ -1,17 +1,16 @@
 from py2neo import Graph
 import sqlite3
 import re
+import util
+import json
 
-# def get_str(args):
-#     res = ''
-#     for k, v in args.items():
-#         if not v:
-#             continue
-#         if res != '':
-#             res += '|'
-#         res += str(k)
-#     return res
 
+config = json.loads(open(util.get_rel_path('conf'), 'r').read())
+DB_PATH = util.get_rel_path(config['db_path'])
+DB_NAME = config['db_name']
+URL = config['url']
+PASSWORD = config['password']
+NAME = config['name']
 
 def get_reverse_str(kind):
     if kind == 'i':
@@ -37,16 +36,6 @@ def dataframe2json(df):
     ids = set()
     nodes = []
     links = []
-    # real_pattern = re.compile(r'\(_(\d+)')
-    # kind_pattern = re.compile(r'\(_\d+:([iurp])')
-    # id_pattern = re.compile(r'id:([^,]),')
-    # n_pattern = re.compile(r'n:([^,]),')
-    # repo_pattern = re.compile(r' repository:([^,]),')
-    # v_pattern = re.compile(r'v:([^,]),')
-    # rid_pattern = re.compile(r'\(_(\d+)\)')
-    # w_pattern = re.compile(r'w:([^}])}')
-    # year_pattern = re.compile(r'year([^,]),')
-    # month_pattern = re.compile(r'month:([^,]),')
     c_pattern = re.compile(r'([ripu])')
     for _, data in df.iterrows():
         id1 = str(data[0]['id'])
@@ -65,7 +54,7 @@ def dataframe2json(df):
 def get_graph(name, year, month):
     cypher = "MATCH (a)-[l]-(b) WHERE a.repository='{}' AND a.year='{}' AND a.month='{}' RETURN a,b,l".format(
         name, year, month)
-    graph = Graph('http://localhost:7474/', password='12345678', name='neo4j')
+    graph = Graph(URL, password=PASSWORD, name=NAME)
     result = graph.run(cypher).to_data_frame()
     result = dataframe2json(result)
     return result
@@ -75,14 +64,14 @@ def get_min_graph(re_name, year, month, gid, kind):
     reverse_kinds = get_reverse_str(kind)
     cypher = "MATCH (a:{})-[l]-(b:{}) WHERE a.id='{}' AND a.repository='{}' AND a.year='{}' AND a.month='{}' RETURN a,b,l".format(
         kind, reverse_kinds, gid, re_name, year, month)
-    graph = Graph('http://localhost:7474/', password='12345678', name='neo4j')
+    graph = Graph(URL, password=PASSWORD, name=NAME)
     result = graph.run(cypher).to_data_frame()
     result = dataframe2json(result)
     return result
 
 
 def get_repository_names():
-    conn = sqlite3.connect('data/graph.db')
+    conn = sqlite3.connect(DB_PATH + DB_NAME)
     cur = conn.cursor()
     cur.execute('SELECT DISTINCT name FROM graphs ORDER BY name')
     names_sql = cur.fetchall()
@@ -93,7 +82,7 @@ def get_repository_names():
 
 
 def get_years(repository_name):
-    conn = sqlite3.connect('data/graph.db')
+    conn = sqlite3.connect(DB_PATH + DB_NAME)
     cur = conn.cursor()
     cur.execute("SELECT DISTINCT year FROM graphs WHERE name = '{}' ORDER BY year".format(repository_name))
     years_sql = cur.fetchall()
@@ -104,7 +93,7 @@ def get_years(repository_name):
 
 
 def get_months(repository_name, year):
-    conn = sqlite3.connect('data/graph.db')
+    conn = sqlite3.connect(DB_PATH + DB_NAME)
     cur = conn.cursor()
     cur.execute(
         "SELECT DISTINCT month FROM graphs WHERE name='{}' AND year={} ORDER BY month".format(repository_name,

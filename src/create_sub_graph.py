@@ -3,16 +3,28 @@ from py2neo import Node, Relationship, Graph
 import json
 import sqlite3
 import glob
+import util
+import json
 
-conn = sqlite3.connect('../data/graph.db')
-my_graph = Graph('http://localhost:7474/', password='12345678', name='neo4j')
+
+config = json.loads(open(util.get_rel_path('conf'), 'r').read())
+DB_PATH = util.get_rel_path(config['db_path'])
+DB_NAME = config['db_name']
+JSON_PATH = util.get_rel_path(config['json_path'])
+JSON_PATH = util.get_rel_path(config['json_path'])
+URL = config['url']
+PASSWORD = config['password']
+NAME = config['name']
+
+conn = sqlite3.connect(DB_PATH + DB_NAME)
+my_graph = Graph(URL, password=PASSWORD, name=NAME)
 cur = conn.cursor()
 cur.execute('CREATE TABLE graphs (name TEXT, year NUMBER, month NUMBER)')
 repos = ['alibaba-arthas', 'alibaba-canal', 'alibaba-druid', 'alibaba-easyexcel', 'kubevela-velaux',
          'kubevela-workflow', 'labring-laf', 'labring-sealos', 'midwayjs-midway', 'nacos-group-nacos-k8s',
          'redis-redis', 'X-lab2017-open-digger']
 for repo in repos:
-    for file in glob.glob("../data/{}*.json".format(repo)):
+    for file in glob.glob("{}{}*.json".format(JSON_PATH,repo)):
         print(file)
         pattern = re.compile(r'(202[0123])-(\d+)')
         t = pattern.search(file).group()

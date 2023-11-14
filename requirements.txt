@@ -13,12 +13,12 @@ mkl-random==1.2.2
 mkl-service==2.4.0
 monotonic==1.6
 numexpr==2.8.4
-numpy==1.25.0
+numpy==1.24.3
 packaging==23.1
 pandas==1.5.3
 pansi==2020.7.3
 pip==23.1.2
-py2neo==2021.2.3
+py2neo==2021.2.4
 Pygments==2.15.1
 python-dateutil==2.8.2
 pytz==2022.7
