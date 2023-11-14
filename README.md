@@ -1,10 +1,6 @@
-# Openg
-
 ## 环境准备
 
-确保环境中安装wget，ruby，python3。
-
-输入如下命令安装第三方python库：
+首先请确保环境中安装wget，ruby，python3，输入如下命令安装第三方python库：
 
 ~~~bash
 pip install -r requirements.txt
@@ -41,6 +37,7 @@ python main.py
 | 刘雨石 | 51255903113 |
 |  卫涛  | 51255903105 |
 | 程奂仑 | 51255903112 |
+| 胡展翊 | 51255903110 |
 
 ## 思路
 
@@ -79,9 +76,9 @@ python main.py
 
 项目结构如下所示：
 
-![image-20230714210531003](/Users/liuyushi/Desktop/开源期末改/报告/image-20230714210531003.png)
+![](https://github.com/iWYZ-666/openg/blob/main/img/directory.png?raw=true)
 
-其中data/目录下存放获取数据集的脚本；src/目录下存放建库与查询代码；static/目录下包含前端所需静态文件以及前端交互代码；templates/目录下存放html模板代码；main.py为项目入口文件。
+其中`data/`目录下存放获取数据集的脚本；`src/`目录下存放建库与查询代码；`static/`目录下包含前端所需静态文件以及前端交互代码；`templates/`目录下存放html模板代码；`main.py`为项目入口文件。
 
 ## 工作内容
 
@@ -145,7 +142,7 @@ def get_graph(name, year, month):
 
 本项目使用了Apache Echarts中的**WebKit模块关系依赖图**作为模板，该模板支持对节点的拖动，以及根据节点类型进行过滤等功能。
 
-![](/Users/liuyushi/Desktop/归档/开源课程期末项目/开源期末改/报告/l.png)
+![](https://github.com/iWYZ-666/openg/blob/main/img/pic1.png?raw=true)
 
 在此基础之上，添加了指针悬浮事件与双击事件，代码如下：
 
@@ -387,19 +384,19 @@ var onGraphDataLoaded = graph => {
 
 - 整体界面展示
 
-![](/Users/liuyushi/Desktop/归档/开源课程期末项目/开源期末改/报告/主界面.png)
+![](https://github.com/iWYZ-666/openg/blob/main/img/主界面.png?raw=true)
 
 - 根据仓库名、日期检索相应的协作网络
 
 
-![](/Users/liuyushi/Desktop/归档/开源课程期末项目/开源期末改/报告/查询.png)
+![](https://github.com/iWYZ-666/openg/blob/main/img/pic2.png?raw=true)
 
 - 指针悬浮事件(属性信息展示)
 
 
-![](/Users/liuyushi/Desktop/归档/开源课程期末项目/开源期末改/报告/悬浮.png)
+![](https://github.com/iWYZ-666/openg/blob/main/img/悬浮.png?raw=true)
 
 - 指针点击事件(关联边信息展示)
 
 
-![](/Users/liuyushi/Desktop/归档/开源课程期末项目/开源期末改/报告/双击.png)
+![](https://github.com/iWYZ-666/openg/blob/main/img/双击.png?raw=true)
