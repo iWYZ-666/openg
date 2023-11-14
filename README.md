@@ -1,23 +1,32 @@
 ## 环境准备
 
-首先请确保环境中安装wget，ruby，python3，输入如下命令安装第三方python库：
+首先请确保环境中安装wget，python3，输入如下命令安装第三方python库：
 
 ~~~bash
 pip install -r requirements.txt
 ~~~
+
+使用Docker部署Neo4j
+
+```shell
+docker run -d \
+    --publish=7474:7474 --publish=7687:7687 \
+    --volume=$HOME/neo4j/data:/data \
+    neo4j
+```
 
 ## 数据准备
 
 输入如下命令获取数据集：
 
 ~~~bash
-ruby get_json.rb
+python3 src/download_json.py
 ~~~
 
 输入如下命令建立Neo4j与sqlite数据库：
 
 ~~~bash
-python src/create_graph.py
+python3 src/create_graph.py
 ~~~
 
 ## 运行项目
@@ -25,7 +34,7 @@ python src/create_graph.py
 输入如下命令运行本项目：
 
 ~~~bash
-python main.py
+python3 main.py
 ~~~
 
 在浏览器中访问localhost:5000即可访问。
@@ -44,17 +53,16 @@ python main.py
 ​	我们选择的题目是**W3：开源协作网络可视化**，在 GitHub 中，开源协作从单纯的 Git 代码协作扩大为基于 Issue、Pull Request、Discussion、Follow 等 GitHub 特性的多维协作。协作建立联系，联系构造网络，通过构造网络、分析网络并可视化网络的方式展现开源协作数据，开源世界将更好地被人们洞察。在网络构建方面，我们进一步选择了**项目内的协作网络数据**。该题目所提供的数据为项目的协作网络数据，以月为维度发布，支持阿里开源开发者贡献榜、XSOSI 项目等共计 73 个仓库的数据。此外，观察到数据主要分为以下两个类型：
 
 - nodes 为节点：
-
-- - id 为节点唯一标识
+  - id 为节点唯一标识
   - n 为节点名，包含仓库、开发者、Issue/PR number
   - c 为类型，r 是仓库，u 是开发者，i 是 Issue，p 是 PR
   - v 是当月 OpenRank 值
 
 - links 为边
-
-- - s 为边起点
+  - s 为边起点
   - t 为边终点
   - w 为边权重
+
 
 ​	面对以大量点、边数据构成的数据集，我们选择使用**图数据库Neo4j**对其进行存储，原因如下：
 
@@ -76,7 +84,23 @@ python main.py
 
 项目结构如下所示：
 
-![](https://github.com/iWYZ-666/openg/blob/main/img/directory.png?raw=true)
+```plaintext
+openg
+├── data
+├── src
+│   ├── create_graph.py
+│   ├── create_sub_graph.py
+│   └── get_graph.py
+├── static
+│   ├── background.png
+│   ├── draw.js
+│   ├── func.js
+│   ├── jquery-3.7.0.min.js
+│   └── logo.png
+├── templates
+│   └── index.html
+└── main.py
+```
 
 其中`data/`目录下存放获取数据集的脚本；`src/`目录下存放建库与查询代码；`static/`目录下包含前端所需静态文件以及前端交互代码；`templates/`目录下存放html模板代码；`main.py`为项目入口文件。
 
