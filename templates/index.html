@@ -9,6 +9,7 @@
     <title>Home</title>
     <script src=" https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../static/index.css">
 </head>
 <body>
 
@@ -65,8 +66,26 @@
       <br>
     <div class="container-fluid">
       <div class="row">
+        <div class="col-md-3 mx-auto">
+          <!-- 折线图、饼图 -->
+          <div class="panel pie">
+            <h2>OpenRank<br>
+                <a href="javascript:;">FP_rate</a>
+                <a href="javascript:;">FP_speed</a>
+                <a href="javascript:;">INT_rate</a>
+                <a href="javascript:;">INT_speed</a>
+  
+            </h2>
+            <div class="chart"></div>
+            <div class="panel-footer"></div>
+          </div>
+
+          
+        </div>
+        <!-- 主图 -->
         <div class="col-md-7 mx-auto">
-          <div id="main" style="width: 900px;height:900px;"></div>
+          <!-- <div id="main" style="width: 900px;height:900px;"></div> -->
+          <div id="main" style="width: 8.00rem;height:8.00rem;"></div>
         </div>
         <div class="col-md-3 mx-auto">
           <div id="details" class="bordered">
@@ -108,9 +127,7 @@
 
         </div>
         </div>
-        <div class="col-md-3 mx-auto">
-          
-        </div>
+        
       </div>
     </div>
 </div>

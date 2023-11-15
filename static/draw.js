@@ -146,4 +146,80 @@ function drawMinGraph(res) {
 
 
 
+// 饼状图 
+(function() {
+    // 基于准备好的dom，初始化echarts实例
+    var myChart_pie = echarts.init(document.querySelector(".pie .chart"));
 
+    var xAxisData = [
+
+        1,2,3
+    ];
+    var data1 = [
+
+        1,2,3
+    ];
+
+
+    var option_pie = {
+
+        legend: {
+            data: ['openRange'],
+            // 距离容器10%
+            right: "10%",
+            // 修饰图例文字的颜色
+            textStyle: {
+                color: "#4c9bfd"
+            }
+            // 如果series 里面设置了name，此时图例组件的data可以省略
+            // data: ["邮件营销", "联盟广告"]
+        },
+
+        tooltip: {
+            trigger: "axis"
+        },
+        xAxis: {
+            data: xAxisData,
+            splitLine: {
+                show: false
+            }
+        },
+        yAxis: {},
+        series: [
+            {
+                name: 'base',
+                type: 'bar',
+                data: data1,
+                emphasis: {
+                    focus: 'series'
+                },
+                animationDelay: function (idx) {
+                    return idx * 10;
+                }
+            },
+            
+        ],
+        animationEasing: 'elasticOut',
+        animationDelayUpdate: function (idx) {
+            return idx * 5;
+        }
+    };
+
+    var dataAll = [
+
+    ];
+
+    // 使用刚指定的配置项和数据显示图表。
+    // myChart_pie.setOption(option_pie);
+    // $(".pie h2 ").on("click", "a", function() {
+    //     var dataIndex = $(this).index() - 1;
+    //     option_pie.xAxis.data = dataAll[dataIndex][0];
+    //     option_pie.series[0].data = dataAll[dataIndex][1];
+
+    //     option_pie.series[1].data = dataAll[dataIndex][2];
+    //     myChart_pie.setOption(option_pie);
+    // });
+    window.addEventListener("resize", function() {
+        myChart_pie.resize();
+    });
+})();
