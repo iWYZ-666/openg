@@ -78,6 +78,8 @@ def get_repository_names():
     names = []
     for name in names_sql:
         names.append(name[0])
+    cur.close()
+    conn.close()
     return names
 
 
@@ -89,6 +91,8 @@ def get_years(repository_name):
     years = []
     for year in years_sql:
         years.append(year[0])
+    cur.close()
+    conn.close()
     return years
 
 
@@ -102,4 +106,9 @@ def get_months(repository_name, year):
     months = []
     for month in months_sql:
         months.append(month[0])
+    cur.close()
+    conn.close()
     return months
+
+if __name__ == '__main__':
+    print(get_repository_names())

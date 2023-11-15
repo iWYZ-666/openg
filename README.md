@@ -9,7 +9,7 @@ pip install -r requirements.txt
 使用Docker部署Neo4j
 
 ```shell
-docker run -d \
+docker run \
     --publish=7474:7474 --publish=7687:7687 \
     --volume=$HOME/neo4j/data:/data \
     neo4j

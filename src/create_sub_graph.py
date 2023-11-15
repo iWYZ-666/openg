@@ -20,6 +20,7 @@ conn = sqlite3.connect(DB_PATH + DB_NAME)
 my_graph = Graph(URL, password=PASSWORD, name=NAME)
 cur = conn.cursor()
 cur.execute('CREATE TABLE graphs (name TEXT, year NUMBER, month NUMBER)')
+conn.commit()
 repos = ['alibaba-arthas', 'alibaba-canal', 'alibaba-druid', 'alibaba-easyexcel', 'kubevela-velaux',
          'kubevela-workflow', 'labring-laf', 'labring-sealos', 'midwayjs-midway', 'nacos-group-nacos-k8s',
          'redis-redis', 'X-lab2017-open-digger']
@@ -49,3 +50,5 @@ for repo in repos:
                 t = graph_nodes[link['t']]
                 rel = Relationship(s, t, w=link['w'])
                 my_graph.create(rel)
+cur.close()
+conn.close()

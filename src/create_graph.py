@@ -18,9 +18,10 @@ NAME = config['name']
 conn = sqlite3.connect(DB_PATH + DB_NAME)
 my_graph = Graph(URL, password=PASSWORD, name=NAME)
 cur = conn.cursor()
-# cur.execute('DROP TABLE graphs')
+cur.execute('DROP TABLE graphs')
+conn.commit()
 cur.execute('CREATE TABLE graphs (name TEXT, year NUMBER, month NUMBER)')
-print('Table graphs created successfully.')
+conn.commit()
 
 file_names = os.listdir(JSON_PATH)
 for file_name in file_names:
@@ -47,3 +48,6 @@ for file_name in file_names:
             t = graph_nodes[link['t']]
             rel = Relationship(s, t, w=link['w'])
             my_graph.create(rel)
+    conn.commit()
+cur.close()
+conn.close()
