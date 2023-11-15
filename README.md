@@ -87,10 +87,15 @@ python3 main.py
 ```plaintext
 openg
 ├── data
+│   ├── db
+│   └── json
 ├── src
 │   ├── create_graph.py
 │   ├── create_sub_graph.py
-│   └── get_graph.py
+│   ├── get_graph.py
+│   ├── download_json.py
+│   ├── util.py 
+│   └── conf
 ├── static
 │   ├── background.png
 │   ├── draw.js
@@ -102,7 +107,7 @@ openg
 └── main.py
 ```
 
-其中`data/`目录下存放获取数据集的脚本；`src/`目录下存放建库与查询代码；`static/`目录下包含前端所需静态文件以及前端交互代码；`templates/`目录下存放html模板代码；`main.py`为项目入口文件。
+其中`data/`目录下存放数据集与数据库文件；`src/`目录下存放数据获取、建库、查询等代码；`static/`目录下包含前端所需静态文件以及前端交互代码；`templates/`目录下存放html模板代码；`main.py`为项目入口文件。
 
 ## 工作内容
 
