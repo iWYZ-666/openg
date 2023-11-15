@@ -223,3 +223,184 @@ function drawMinGraph(res) {
         myChart_pie.resize();
     });
 })();
+
+(function() {
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.querySelector(".line1 .chart"));
+
+    option = {
+      tooltip: {
+        trigger: "axis",
+        axisPointer: {
+          lineStyle: {
+            color: "#dddc6b"
+          }
+        }
+      },
+      legend: {
+        top: "0%",
+        textStyle: {
+          color: "rgba(255,255,255,.5)",
+          fontSize: "12"
+        }
+      },
+      grid: {
+        left: "10",
+        top: "30",
+        right: "10",
+        bottom: "10",
+        containLabel: true
+      },
+
+      xAxis: [
+        {
+          type: "category",
+          boundaryGap: false,
+          axisLabel: {
+            textStyle: {
+              color: "rgba(255,255,255,.6)",
+              fontSize: 12
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: "rgba(255,255,255,.2)"
+            }
+          },
+
+          data: [
+            // {% for item in fig_score_dis_data.0.data.0 %}
+            //       '{{ item }}',
+            //   {% endfor %}
+          ]
+        },
+        {
+          axisPointer: { show: false },
+          axisLine: { show: false },
+          position: "bottom",
+          offset: 20
+        }
+      ],
+
+      yAxis: [
+        {
+          type: "value",
+          axisTick: { show: false },
+          axisLine: {
+            lineStyle: {
+              color: "rgba(255,255,255,.1)"
+            }
+          },
+          axisLabel: {
+            textStyle: {
+              color: "rgba(255,255,255,.6)",
+              fontSize: 12
+            }
+          },
+
+          splitLine: {
+            lineStyle: {
+              color: "rgba(255,255,255,.1)"
+            }
+          }
+        }
+      ],
+      series: [
+        {
+          name: "number",
+          type: "line",
+          smooth: true,
+          symbol: "circle",
+          symbolSize: 5,
+          showSymbol: false,
+          lineStyle: {
+            normal: {
+              color: "#0184d5",
+              width: 2
+            }
+          },
+          areaStyle: {
+            normal: {
+              color: new echarts.graphic.LinearGradient(
+                0,
+                0,
+                0,
+                1,
+                [
+                  {
+                    offset: 0,
+                    color: "rgba(1, 132, 213, 0.4)"
+                  },
+                  {
+                    offset: 0.8,
+                    color: "rgba(1, 132, 213, 0.1)"
+                  }
+                ],
+                false
+              ),
+              shadowColor: "rgba(0, 0, 0, 0.1)"
+            }
+          },
+          itemStyle: {
+            normal: {
+              color: "#0184d5",
+              borderColor: "rgba(221, 220, 107, .1)",
+              borderWidth: 12
+            }
+          },
+          data: [
+            //   {% for item in fig_score_dis_data.0.data.1 %}
+            //       {{ item }},
+            //   {% endfor %}
+          ]
+        },
+        
+      ]
+    };
+    // 一样的格式化数据
+  var dataALL = [
+    //   {% for item in fig_score_dis_data %}
+    //   [
+    //     {% for item2 in item.data.0 %}
+    //       {{ item2 }},
+    //     {% endfor %}
+    //   ],
+    // {% endfor %}
+  ];
+  var dataALL_base = [
+    //   {% for item in fig_score_dis_data %}
+    //   [
+    //     {% for item2 in item.data.1 %}
+    //       {{ item2 }},
+    //     {% endfor %}
+    //   ],
+    // {% endfor %}
+  ];
+  var dataALL_peak = [
+    // {% for item in fig_score_dis_data %}
+    //   [
+    //     {% for item2 in item.data.2 %}
+    //       {{ item2 }},
+    //     {% endfor %}
+    //   ],
+    // {% endfor %}
+  ];
+
+    // 使用刚指定的配置项和数据显示图表。
+  myChart.setOption(option);
+      window.addEventListener("resize", function() {
+      myChart.resize();
+  });
+  $(".line1 h2 ").on("click", "a", function() {
+       
+
+      var dataIndex = $(this).index() - 1;
+      option.xAxis.data = dataALL[dataIndex];
+      option.series[0].data = dataALL_base[dataIndex];
+    //   {#console.log(dataALL_base[dataIndex]);#}
+      option.series[1].data = dataALL_peak[dataIndex];
+
+      myChart.setOption(option);
+  });
+
+  })();

@@ -7,6 +7,7 @@ def get_rel_path(path):
     conf_file_path = os.path.join(main_dir, path)
     return conf_file_path
 
+
 def create_dir(path):
     if not os.path.exists(path):
         os.mkdir(path)
