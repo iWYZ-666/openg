@@ -7,7 +7,7 @@ import util
 import json
 import time
 
-
+# config
 config = json.loads(open(util.get_rel_path('conf'), 'r').read())
 DB_PATH = util.get_rel_path(config['db_path'])
 DB_NAME = config['db_name']
@@ -16,11 +16,19 @@ URL = config['url']
 PASSWORD = config['password']
 NAME = config['name']
 
+# clear sqlite
+if os.path.exists(DB_PATH + DB_NAME):
+    os.remove(DB_PATH + DB_NAME)
+# connected to sqlite
 conn = sqlite3.connect(DB_PATH + DB_NAME)
-my_graph = Graph(URL, password=PASSWORD, name=NAME)
 cur = conn.cursor()
 cur.execute('CREATE TABLE graphs (name TEXT, year NUMBER, month NUMBER)')
 conn.commit()
+
+# connected to neo4j
+my_graph = Graph(URL, password=PASSWORD, name=NAME)
+# clear neo4j
+my_graph.delete_all()
 
 # load a subgraph into the graph
 def batch_load(node_list: [], link_list: [], graph: Graph):
@@ -28,12 +36,8 @@ def batch_load(node_list: [], link_list: [], graph: Graph):
     tx_ = graph.begin()
     tx_.create(subgraph)
     graph.commit(tx_)
-    
-# clear the graph
-def clear(graph: Graph):
-    graph.delete_all()
 
-clear(my_graph)
+
 file_names = os.listdir(JSON_PATH)
 for file_name in file_names:
     pattern = re.compile(r'(202[0123])-(\d+)')
