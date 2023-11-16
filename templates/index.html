@@ -21,13 +21,26 @@
   html, body {
     height: 100%; 
   }
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table thead th {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+  }
+  
+  
 </style>
 
 <body>
 
   <canvas id="canvas"></canvas>
   <!-- 导航栏 -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 7%;>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 7%;">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <img src="../static/logo.png" alt="Logo" style="width: 75px; height: auto;">
@@ -80,7 +93,7 @@
   <div class="container-fluid" style="height: 92%;">
     <div class="row" style="height: 100%;">
 
-      <div class="col-md-3 mx-auto" style="width: 20%;  height: 100%; display: flex; flex-direction: column;">
+      <div class="col-md-3 mx-auto" style="width: 15%;  height: 100%; display: flex; flex-direction: column;">
         <!-- 折线图 -->
         <!-- <h3 style="text-align: center;"> Repo Analysis </h3> -->
         <!-- <div></div> -->
@@ -103,114 +116,100 @@
       </div>
 
 
-      <div class="col-md-3 mx-auto" style="width: 20%; height: 100%">
-        <div id="details" class="bordered">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title" style="text-align: center;">Details</h5>
-            </div>
+      <div class="col-md-3 mx-auto" style="width: 25%; height: 100%; ">
+        <div id="details" class="bordered" style="height: 49.5%; background-color: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+          <div class="card" style="border: none; height: 20%">
+              <div class="card-body">
+                  <h5 class="card-title" style="text-align: center; color: #333; font-weight: bold;">Details</h5>
+              </div>
           </div>
-          <div id="details_div" class="scrollit">
-            <table id="details_table" class="table">
+          <div id="details_div" class="scrollit" style="max-height: 80%; overflow-y: auto;">
+              <table class="table" style="text-align: center;">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">OpenRank</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="col">frank-zsy</th>
+                    <th scope="col">user</th>
+                    <th scope="col">94.92</th>
+                  </tr>
+                  <tr>
+                    <th scope="col">X-lab2017/open-digger</th>
+                    <th scope="col">repo</th>
+                    <th scope="col">24.81</th>
+                  </tr>
+                  <tr>
+                    <th scope="col">xgdyp</th>
+                    <th scope="col">user</th>
+                    <th scope="col">37.04</th>
+                  </tr>
+                  <tr>
+                    <th scope="col">open-digger-bot[bot]</th>
+                    <th scope="col">user</th>
+                    <th scope="col">33.86</th>
+                  </tr>
+                  <tr>
+                    <th scope="col">#1104</th>
+                    <th scope="col">pr</th>
+                    <th scope="col">4.9</th>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+        <div id="leaderboard" style="height: 49.5%; background-color: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); margin-top: 1%;">
+          <div class="card" style="border: none; height: 20%">
+              <div class="card-body">
+                  <h5 class="card-title" style="text-align: center; color: #333; font-weight: bold;">Leaderboard</h5>
+              </div>
+          </div>
+          <div id="leaderboard_div" class="scrollit" style="max-height: 80%; overflow-y: auto;">
+            <table class="table" style="text-align: center;">
               <thead>
                 <tr>
-                  <th scope="col">ID</th>
                   <th scope="col">Name</th>
-                  <th scope="col">Kind</th>
+                  <th scope="col">Category</th>
                   <th scope="col">OpenRank</th>
                 </tr>
+              </thead>
+              <tbody>
                 <tr>
-                  <th scope="col">102686</th>
-                  <th scope="col">1104</th>
-                  <th scope="col">pull request</th>
-                  <th scope="col">4.9</th>
-                </tr>
-                <tr>
-                  <th scope="col">13547</th>
                   <th scope="col">frank-zsy</th>
                   <th scope="col">user</th>
                   <th scope="col">94.92</th>
                 </tr>
                 <tr>
-                  <th scope="col">44269</th>
-                  <th scope="col">X-lab2017/open-digger</th>
-                  <th scope="col">repository</th>
-                  <th scope="col">24.81</th>
-                </tr>
-                <!-- <tr>
-                  <th scope="col">64455</th>
                   <th scope="col">xgdyp</th>
                   <th scope="col">user</th>
                   <th scope="col">37.04</th>
-                </tr> -->
-                <!-- <tr>
-                  <th scope="col">44367</th>
+                </tr>
+                <tr>
                   <th scope="col">open-digger-bot[bot]</th>
                   <th scope="col">user</th>
                   <th scope="col">33.86</th>
-                </tr> -->
-              </thead>
+                </tr>
+                <tr>
+                  <th scope="col">X-lab2017/open-digger</th>
+                  <th scope="col">repo</th>
+                  <th scope="col">24.81</th>
+                </tr>
+                <tr>
+                  <th scope="col">longyanz</th>
+                  <th scope="col">user</th>
+                  <th scope="col">24.81</th>
+                </tr>
+              </tbody>
             </table>
           </div>
-          <div id="main_1" class="bordered">
-            <div id="graph" class="bordered"></div>
-            <div id="control" class="bordered">
-              <div id="list" class="bordered">
-
-                <div id="leaderboard_div">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title" style="text-align: center;">Leaderboard</h5>
-                    </div>
-                  </div>
-                  <table id="leaderboard_table" class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Kind</th>
-                        <th scope="col">OpenRank</th>
-                      </tr>
-                      <tr>
-                        <th scope="col">13547</th>
-                        <th scope="col">frank-zsy</th>
-                        <th scope="col">user</th>
-                        <th scope="col">94.92</th>
-                      </tr>
-                      <tr>
-                        <th scope="col">64455</th>
-                        <th scope="col">xgdyp</th>
-                        <th scope="col">user</th>
-                        <th scope="col">37.04</th>
-                      </tr>
-                      <tr>
-                        <th scope="col">44367</th>
-                        <th scope="col">open-digger-bot[bot]</th>
-                        <th scope="col">user</th>
-                        <th scope="col">33.86</th>
-                      </tr>
-                      <!-- <tr>
-                        <th scope="col">44269</th>
-                        <th scope="col">X-lab2017/open-digger</th>
-                        <th scope="col">repository</th>
-                        <th scope="col">24.81</th>
-                      </tr> -->
-                      <!-- <tr>
-                        <th scope="col">83676</th>
-                        <th scope="col">longyanz</th>
-                        <th scope="col">user</th>
-                        <th scope="col">24.81</th>
-                      </tr> -->
-                    </thead>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
-
+    
+      
     </div>
   </div>
 
