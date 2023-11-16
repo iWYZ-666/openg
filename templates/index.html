@@ -9,9 +9,9 @@
     <title>Home</title>
     <script src=" https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/style.css">
-    <!-- <link rel="stylesheet" type="text/css" href="../static/echarts.min.js"> -->
+
     <link rel="stylesheet" type="text/css" href="../static/index_tmp.css">
-    <!-- <link rel="stylesheet" type="text/css" href="../static/index_tmp.css"> -->
+
 </head>
 <body>
 
@@ -87,7 +87,8 @@
 
         <!-- 主图 -->
         <div class="col-md-6">
-          <div id="main" style="width: 1200px;height:900px;text-align: center;">
+          <!-- <div id="main" style="width: 1200px;height:900px;text-align: center;"> -->
+            <div style="width: 1000px;height:900px;text-align: center;" id="container">
             <div class="panel-footer"></div>
           </div>
           <!-- <div id="main" style="width: 8.00rem;height:8.00rem;"></div> -->
@@ -138,7 +139,332 @@
 <script src="../static/func.js"></script>
 <script src='../static/TweenMax.min.js'></script>
 <script  src="../static/script.js"></script>
+<script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.3.11/dist/g6.min.js"></script>
 
+<script  src="../static/ToolTip.js"></script>
+<script>
+  const container = document.getElementById('container');
+  const width = container.scrollWidth;
+  const height = container.scrollHeight || 700;
+  const topK = 10;
+  const default_legend_size = 20
+  const default_legend_font_size = 15
+  const typeConfigs = {
+      'r': {
+        type: 'rect',
+        size: default_legend_size,
+        style: {
+          fill: '#5B6FBF'
+        }
+      },
+      'u': {
+        type: 'rect',
+        size: default_legend_size,
+        style: {
+          fill: '#DE6F6A'
+        }
+      },
+      'i': {
+        type: 'rect',
+        size: default_legend_size,
+        style: {
+          fill: '#9EC97F'
+        }
+      },
+      'p': {
+        type: 'rect',
+        size: default_legend_size,
+        style: {
+          fill: '#F2C96C'
+        }
+      },
+    }
+  
+  const legendData = {
+      nodes: [
+        { id: 'r', label: 'repo', ...typeConfigs['r'], labelCfg:{style:{fontSize: default_legend_font_size}}},
+        { id: 'u', label: 'user', ...typeConfigs['u'], labelCfg:{style:{fontSize: default_legend_font_size}}},
+        { id: 'i', label: 'issue', ...typeConfigs['i'], labelCfg:{style:{fontSize: default_legend_font_size}}},
+        { id: 'p', label: 'pull', ...typeConfigs['p'], labelCfg:{style:{fontSize: default_legend_font_size}}}
+      ]
+    }
+
+  const legend = new G6.Legend({
+      data: legendData,
+      align: 'center',
+      layout: 'horizontal', // vertical
+      // position: 'bottom-left',
+      vertiSep: 12,
+      horiSep: 24,
+      offsetY: -25,
+      padding: [4, 16, 8, 16],
+      containerStyle: {
+        fill: '',
+        // 无外边框
+        lineWidth: 0
+      },
+      // 标题
+      title: ' ',
+      titleConfig: {
+        position: 'center',
+        offsetX: 0,
+        offsetY: 0,
+      },
+      filter: {
+        enable: true,
+        multiple: true,
+        trigger: 'click',
+        graphActiveState: 'activeByLegend',
+        graphInactiveState: 'inactiveByLegend',
+        filterFunctions: {
+          'r': (d) => {
+            if (d.c === 'r') return true;
+            return false
+          },
+          'u': (d) => {
+            if (d.c === 'u') return true;
+            return false
+          },
+          'i': (d) => {
+            if (d.c === 'i') return true;
+            return false
+          },
+          'p': (d) => {
+            if (d.c === 'p') return true;
+            return false
+          },
+        }
+      }
+    });
+    
+  const toolbar = new G6.ToolBar({
+      position: { x: 10, y: 10 },
+  });
+
+  const graph_ = new G6.Graph({
+  container: 'container',
+  width,
+  height,
+  layout: {
+      preventOverlap: true,
+      type: 'force',
+      nodeSpacing: 15,
+  },
+  defaultNode: {
+      size: 15,
+      lineWidth: 0,
+      style: {
+          lineWidth: 0,
+      }
+  },
+  nodeStateStyles: {
+      activeByLegend: {
+          lineWidth: 3,
+          strokeOpacity: 0.5,
+          stroke: '#f00'
+      },
+      inactiveByLegend: {
+          opacity: 0.5,
+          lineWidth: 0,
+          strokeOpacity: 0,
+          stroke: ''
+      },    
+      dark: {
+          lineWidth: 0,
+          opacity: 0.2,
+      },
+      mouseenterState: {
+          lineWidth: 3,
+          strokeOpacity: 0.5,
+          // stroke: '#f00'
+          stroke: '#5B8FF9'
+      },
+      noLineWidthState: {
+          lineWidth: 0
+      }
+  },
+  edgeStateStyles: {
+      mouseenterState: {
+          lineWidth: 1.5,
+          stroke: '#999',
+      },
+  },
+  plugins: [legend, tooltip, toolbar],            
+  modes: {
+      //default: ['drag-canvas', 'drag-node', 'zoom-canvas',{
+        //  type: 'activate-relations',
+          //activeState: 'activeByLegend',
+         //inactiveState: 'inactiveByLegend',
+        //},],
+        default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
+    },
+  });
+  function getColor(node_type){
+      switch(node_type)
+      {
+          // 仓库
+          case "r":
+              return "#5B6FBF"
+          // 用户
+          case "u":
+              return "#DE6F6A"
+          // issue
+          case "i":
+              return "#9EC97F"
+          // pr
+          default:
+              return "#F2C96C"
+      }
+  }
+
+  function getSize(v, base, threshold){
+      if (v <= threshold){
+          return base * v
+      }else{
+          return getSize(v - threshold, base / 2, threshold) + threshold * base
+      }
+  }
+
+  function getKthLargest(nodes) {
+      nodes.sort((a, b) => b.v - a.v);
+      return nodes[topK - 1].v;
+  }
+
+  function getLabel(node_type, name){
+      switch(node_type)
+      {
+          // 仓库
+          case "r":
+              return name
+          // 用户
+          case "u":
+              return name
+          // issue
+          case "i":
+              return "#" + name
+          // pr
+          default:
+              return "#" + name
+      }
+  }
+  fetch('https://oss.x-lab.info/open_digger/github/X-lab2017/open-digger/project_openrank_detail/2022-12.json')
+  .then((res) => res.json())
+  .then((data) => {
+
+      nodes = data.nodes,
+      edges = data.links.map(function (link, i) {
+          link.source = link.s
+          link.target = link.t
+          link.weight = link.w
+          return Object.assign({}, link);
+          }),
+      
+      topK_v = getKthLargest(nodes);
+      nodes.forEach(node=>{
+          node.size = getSize(node.v, 6, 2)
+          node.style= {
+              fill: getColor(node.c),
+              lineWidth: 0,   
+            };
+          if (node.v >= topK_v){
+              node.label = getLabel(node.c, node.n)
+              node.labelCfg = {
+                  position: 'bottom',
+                }
+          }
+      });
+
+
+
+      graph_.data({
+          nodes: nodes,
+          edges: edges
+      });
+
+
+      graph_.render();
+
+      graph_.on('node:dragstart', function (e) {
+        graph_.layout();
+      refreshDragedNodePosition(e);
+      });
+      graph_.on('node:drag', function (e) {
+      const forceLayout = graph_.get('layoutController').layoutMethods[0];
+      forceLayout.execute();
+      refreshDragedNodePosition(e);
+      });
+      graph_.on('node:dragend', function (e) {
+      e.item.get('model').fx = null;
+      e.item.get('model').fy = null;
+      });
+      graph_.on('node:click', (evt) => {
+        const { item } = evt;
+        item.toFront();
+        // graph.setItemState(item, 'selected', true);
+      });
+      
+      function clearAllStats() {
+        graph_.setAutoPaint(false);
+        graph_.getNodes().forEach(function (node) {
+          graph_.clearItemStates(node);
+          graph_.setItemState(node, 'noLineWidthState', true);
+          });
+          graph_.getEdges().forEach(function (edge) {
+            graph_.clearItemStates(edge);
+            graph_.setItemState(edge, 'noLineWidthState', true);
+          });
+          graph_.paint();
+          graph_.setAutoPaint(true);
+        }
+        
+      // 鼠标移动到节点
+      graph_.on('node:mouseenter', function (e) {
+          const item = e.item;
+          graph_.setAutoPaint(false);
+          // 修改所有节点样式
+          graph_.getNodes().forEach(function (node) {
+            graph_.clearItemStates(node);
+            graph_.setItemState(node, 'dark', true);
+          });
+          // 修改选中节点样式
+          graph_.setItemState(item, 'dark', false);
+          graph_.setItemState(item, 'mouseenterState', true);
+          // 修改所有边的样式
+          graph_.getEdges().forEach(function (edge) {
+          if (edge.getSource() === item) {
+            graph_.setItemState(edge.getTarget(), 'dark', false);
+            graph_.setItemState(edge.getTarget(), 'mouseenterState', true);
+            graph_.setItemState(edge, 'mouseenterState', true);
+              edge.toFront();
+          } else if (edge.getTarget() === item) {
+            graph_.setItemState(edge.getSource(), 'dark', false);
+            graph_.setItemState(edge.getSource(), 'mouseenterState', true);
+            graph_.setItemState(edge, 'mouseenterState', true);
+              edge.toFront();
+          } else {
+            graph_.setItemState(edge, 'mouseenterState', false);
+          }
+          });
+          graph_.paint();
+          graph_.setAutoPaint(true);
+      });
+      graph_.on('node:mouseleave', clearAllStats);
+      graph_.on('canvas:click', clearAllStats);
+
+      if (typeof window !== 'undefined')
+      window.onresize = () => {
+          if (!graph_ || graph_.get('destroyed')) return;
+          if (!container || !container.scrollWidth || !container.scrollHeight) return;
+          graph_.changeSize(container.scrollWidth, container.scrollHeight);
+      };
+  });
+
+  function refreshDragedNodePosition(e) {
+  const model = e.item.get('model');
+  model.fx = e.x;
+  model.fy = e.y;
+  }
+</script>
 </body>
 
 <script type="text/javascript">
