@@ -8,11 +8,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
     <title>Home</title>
     <script src=" https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../static/echarts.min.js"> -->
+    <link rel="stylesheet" type="text/css" href="../static/index_tmp.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../static/index_tmp.css"> -->
 </head>
 <body>
 
-<div>
+  <canvas id="canvas"></canvas>
   <!-- 导航栏 -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
@@ -65,10 +68,31 @@
       <br>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-7 mx-auto">
-          <div id="main" style="width: 900px;height:900px;"></div>
+        <div class="col-md-3 mx-auto">
+          <!-- 折线图 -->
+          <!-- <h3 style="text-align: center;"> Repo Analysis </h3> -->
+          <!-- <div></div> -->
+          <div class="panel line" id="line" style="height: 50%">
+          
+
+
+           <div class="panel-footer"></div>
+          
+          </div>
+          <div class="panel pie" id="pie" style="height: 50%">
+            <div class="panel-footer"></div>
+          </div>
+
+          </div>
+
+        <!-- 主图 -->
+        <div class="col-md-6">
+          <div id="main" style="width: 1200px;height:900px;text-align: center;">
+            <div class="panel-footer"></div>
+          </div>
+          <!-- <div id="main" style="width: 8.00rem;height:8.00rem;"></div> -->
         </div>
-        <div class="col-md-2.6 mx-auto">
+        <div class="col-md-3 mx-auto">
           <div id="details" class="bordered">
             <div class="card">
               <div class="card-body">
@@ -87,33 +111,150 @@
               </thead>
             </table>
             </div>
-        </div>
-        </div>
-        <div class="col-md-2.6 mx-auto">
-          <div id="main_1" class="bordered">
-            <div id="graph" class="bordered"></div>
-            <div id="control" class="bordered">
-            <div id="list" class="bordered">
-                <!-- <div id="title">
-                <h2>Leaderboard</h2>
-                </div> -->
-                <div id="leaderboard_div">
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title" style="text-align: center;">Leaderboard</h5>
+            <div id="main_1" class="bordered">
+              <div id="graph" class="bordered"></div>
+              <div id="control" class="bordered">
+              <div id="list" class="bordered">
+
+                  <div id="leaderboard_div">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title" style="text-align: center;">Leaderboard</h5>
+                    </div>
                   </div>
-                </div>
-                <table id="leaderboard_table" class="table"> </table>
-                </div>
+                  <table id="leaderboard_table" class="table"> </table>
+                  </div>
+              </div>
+              </div>
             </div>
-            </div>
-          </div>
+
         </div>
+        </div>
+        
       </div>
     </div>
-</div>
+
 <script src="../static/draw.js"></script>
 <script src="../static/func.js"></script>
+<script src='../static/TweenMax.min.js'></script>
+<script  src="../static/script.js"></script>
 
 </body>
+
+<script type="text/javascript">
+
+
+var chartDomLine = document.getElementById('line');
+console.log(chartDom);
+var myLineChart = echarts.init(chartDomLine);
+var optionLine;
+
+optionLine = {
+  // title: {
+  //   text: 'Repo Analys'
+  // },
+  tooltip: {
+    trigger: 'axis'
+  },
+  legend: {
+    data: ['Issue', 'Pull Requests', 'Users']
+  },
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  toolbox: {
+    feature: {
+      saveAsImage: {}
+    }
+  },
+  xAxis: {
+    type: 'category',
+    boundaryGap: false,
+    data: ['Jan.', 'Feb.', 'Mar.', 'Apri.', 'Fri', 'Sat', 'Sun']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      name: 'Issue',
+      type: 'line',
+      stack: 'Total',
+      data: [120, 132, 101, 134, 90, 230, 210]
+    },
+    {
+      name: 'Pull Requests',
+      type: 'line',
+      stack: 'Total',
+      data: [220, 182, 191, 234, 290, 330, 310]
+    },
+    {
+      name: 'Users',
+      type: 'line',
+      stack: 'Total',
+      data: [150, 232, 201, 154, 190, 330, 410]
+    },
+
+  ]
+};
+
+optionLine && myLineChart.setOption(optionLine);
+
+
+var chartDomPie = document.getElementById('pie');
+var myChartPie = echarts.init(chartDomPie);
+var optionPie;
+
+optionPie = {
+  tooltip: {
+    trigger: 'item'
+  },
+  legend: {
+    top: '5%',
+    left: 'center'
+  },
+  series: [
+    {
+      name: 'Access From',
+      type: 'pie',
+      radius: ['40%', '70%'],
+      avoidLabelOverlap: false,
+      itemStyle: {
+        borderRadius: 10,
+        borderColor: '#fff',
+        borderWidth: 2
+      },
+      label: {
+        show: false,
+        position: 'center'
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: 40,
+          fontWeight: 'bold'
+        }
+      },
+      labelLine: {
+        show: false
+      },
+      data: [
+        { value: 1048, name: 'Search Engine' },
+        { value: 735, name: 'Direct' },
+        { value: 580, name: 'Email' },
+        { value: 484, name: 'Union Ads' },
+        { value: 300, name: 'Video Ads' }
+      ]
+    }
+  ]
+};
+
+optionPie && myChartPie.setOption(optionPie);
+
+
+
+</script>
 </html>

@@ -141,9 +141,3 @@ function drawMinGraph(res) {
 
 }
 
-
-
-
-
-
-
