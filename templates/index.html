@@ -29,8 +29,10 @@
   .table thead th {
     position: sticky;
     top: 0;
-    background: white;
     z-index: 10;
+    background-color: white;
+    height: 16%;
+    vertical-align: middle;
   }
   
   
@@ -93,7 +95,7 @@
   <div class="container-fluid" style="height: 92%;">
     <div class="row" style="height: 100%;">
 
-      <div class="col-md-3 mx-auto" style="width: 15%;  height: 100%; display: flex; flex-direction: column;">
+      <div class="col-md-3 mx-auto" style="width: 20%;  height: 100%; display: flex; flex-direction: column;">
         <!-- 折线图 -->
         <!-- <h3 style="text-align: center;"> Repo Analysis </h3> -->
         <!-- <div></div> -->
@@ -116,8 +118,8 @@
       </div>
 
 
-      <div class="col-md-3 mx-auto" style="width: 25%; height: 100%; ">
-        <div id="details" class="bordered" style="height: 49.5%; background-color: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+      <div class="col-md-3 mx-auto" style="width: 20%; height: 100%; border: 1px solid #E3F3EC"">
+        <div id="details" class="bordered" style="height: 49.5%; padding: 15px; border-radius: 8px; ">
           <div class="card" style="border: none; height: 20%">
               <div class="card-body">
                   <h5 class="card-title" style="text-align: center; color: #333; font-weight: bold;">Details</h5>
@@ -162,7 +164,7 @@
               </table>
           </div>
         </div>
-        <div id="leaderboard" style="height: 49.5%; background-color: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); margin-top: 1%;">
+        <div id="leaderboard" style="height: 49.5%;  padding: 15px; border-radius: 8px;  margin-top: 1%;">
           <div class="card" style="border: none; height: 20%">
               <div class="card-body">
                   <h5 class="card-title" style="text-align: center; color: #333; font-weight: bold;">Leaderboard</h5>
