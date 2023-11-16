@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../static/jquery-3.7.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <title>Home</title>
+    <script src=" https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+
+    <link rel="stylesheet" type="text/css" href="../static/index_tmp.css">
+
+</head>
+
+<style>
+    html, body {
+      height: 100%; 
+    }
+</style>
+
+<body>
+
+  <canvas id="canvas"></canvas>
+  <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 7%;">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#" >
+          <img src="../static/logo.png" alt="Logo" style="width: 75px; height: auto;">
+        </a>
+        <div class="col-md-8 mx-auto" style="color:white;float:left" >
+          <form onsubmit="return false;">
+              <label style="letter-spacing: 20px; text-indent: 20px;">
+
+                  <select id="repository" onchange="getYears()" class="custom-select">
+                      <option value="0">--请选择一个仓库--</option>
+                      {% for x in names %}
+                        <option value="{{ x }}">{{ x }}</option>
+                      {% endfor %}
+                  </select>
+              </label>
+              <label style="letter-spacing: 20px; text-indent: 20px;">
+
+                  <!-- <select id="year" onchange="getMonths()">
+
+                  </select> -->
+                  <select id="year" class="custom-select" onchange="getMonths()">
+                    <option selected>--请选择年份--</option>
+
+                  </select>
+              </label>
+
+
+
+              <label style="letter-spacing: 20px; text-indent: 20px;">
+
+                  <!-- <select id="month">
+
+                  </select> -->
+                  <select id="month" class="custom-select">
+                    <option selected>--请选择月份--</option>
+
+                  </select>
+              </label>
+
+              <label style="letter-spacing: 20px; text-indent: 20px;">
+                 <button type="button" class="btn btn-primary" onclick="sendPost()">确定</button>
+              </label>
+          </form>
+      </div>
+      </div>
+    </nav>
+
+      <!-- <br> -->
+      <div style="height: 1%;"></div>
+    <div class="container-fluid" style="height: 92%;">
+      <div class="row" style="height: 100%;">
+
+
+        <!-- <div class="col-md-3 mx-auto" style="width: 20%;">
+          <div class="panel line" id="line" style="height: 49.5%">
+          
+
+
+          <div class="panel-footer"></div>
+          
+          </div>
+          <div class="panel pie" id="pie" style="height: 49.5%;">
+            <div class="panel-footer"></div>
+          </div>
+
+        </div> -->
+
+        <div class="col-md-3 mx-auto" style="width: 20%;  height: 100%; display: flex; flex-direction: column;">
+          <!-- 折线图 -->
+          <!-- <h3 style="text-align: center;"> Repo Analysis </h3> -->
+          <!-- <div></div> -->
+          <div class="panel line" id="line" style="height: 49.5%; margin-bottom: auto;">
+              <div class="panel-footer"></div>
+          </div>
+          <div class="panel pie" id="pie" style="height: 49.5%; margin-top: auto;">
+              <div class="panel-footer"></div>
+          </div>
+        </div>
+      
+
+        <!-- 主图 -->
+        <div class="col-md-6" style="width: 60%; height: 100%">
+          <!-- <div id="main" style="width: 1200px;height:900px;text-align: center;"> -->
+            <div style="text-align: center; background-color: white; border: 1px solid #E3F3EC" id="container" ref="container_ref">
+            <div class="panel-footer"></div>
+          </div>
+          <!-- <div id="main" style="width: 8.00rem;height:8.00rem;"></div> -->
+        </div>
+
+
+        <div class="col-md-3 mx-auto" style="width: 20%;">
+          <div id="details" class="bordered">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title" style="text-align: center;">Details</h5>
+              </div>
+            </div>
+            <div id="details_div" class="scrollit">
+            <table id="details_table" class="table">
+              <thead>
+                <tr>
+                  <th scope="col">From</th>
+                  <th scope="col">Ratio</th>
+                  <th scope="col">Value</th>
+                  <th scope="col">OpenRank</th>
+                </tr>
+              </thead>
+            </table>
+            </div>
+            <div id="main_1" class="bordered">
+              <div id="graph" class="bordered"></div>
+              <div id="control" class="bordered">
+              <div id="list" class="bordered">
+
+                  <div id="leaderboard_div">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title" style="text-align: center;">Leaderboard</h5>
+                    </div>
+                  </div>
+                  <table id="leaderboard_table" class="table"> </table>
+                  </div>
+              </div>
+              </div>
+            </div>
+
+        </div>
+        </div>
+        
+      </div>
+    </div>
+
+<script src="../static/draw.js"></script>
+<script src="../static/func.js"></script>
+<script src='../static/TweenMax.min.js'></script>
+<script  src="../static/script.js"></script>
+<script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.3.11/dist/g6.min.js"></script>
+
+<script  src="../static/ToolTip.js"></script>
+<!-- 中间的图 -->
+<script>
+  const container = document.getElementById('container');
+  const width = container.scrollWidth;
+  const height = container.scrollHeight || 750;
+  const topK = 10;
+  const default_legend_size = 20
+  const default_legend_font_size = 15
+  const typeConfigs = {
+      'r': {
+        type: 'rect',
+        size: default_legend_size,
+        style: {
+          fill: '#5B6FBF'
+        }
+      },
+      'u': {
+        type: 'rect',
+        size: default_legend_size,
+        style: {
+          fill: '#DE6F6A'
+        }
+      },
+      'i': {
+        type: 'rect',
+        size: default_legend_size,
+        style: {
+          fill: '#9EC97F'
+        }
+      },
+      'p': {
+        type: 'rect',
+        size: default_legend_size,
+        style: {
+          fill: '#F2C96C'
+        }
+      },
+    }
+  
+  const legendData = {
+      nodes: [
+        { id: 'r', label: 'repo', ...typeConfigs['r'], labelCfg:{style:{fontSize: default_legend_font_size}}},
+        { id: 'u', label: 'user', ...typeConfigs['u'], labelCfg:{style:{fontSize: default_legend_font_size}}},
+        { id: 'i', label: 'issue', ...typeConfigs['i'], labelCfg:{style:{fontSize: default_legend_font_size}}},
+        { id: 'p', label: 'pull', ...typeConfigs['p'], labelCfg:{style:{fontSize: default_legend_font_size}}}
+      ]
+    }
+
+  const legend = new G6.Legend({
+      data: legendData,
+      align: 'center',
+      layout: 'horizontal', // vertical
+      // position: 'bottom-left',
+      vertiSep: 12,
+      horiSep: 24,
+      offsetY: height - 75,
+      padding: [4, 16, 8, 16],
+      containerStyle: {
+        fill: '',
+        // 无外边框
+        lineWidth: 0
+      },
+      // 标题
+      title: ' ',
+      titleConfig: {
+        position: 'center',
+        offsetX: 0,
+        offsetY: 0,
+      },
+      filter: {
+        enable: true,
+        multiple: true,
+        trigger: 'click',
+        graphActiveState: 'activeByLegend',
+        graphInactiveState: 'inactiveByLegend',
+        filterFunctions: {
+          'r': (d) => {
+            if (d.c === 'r') return true;
+            return false
+          },
+          'u': (d) => {
+            if (d.c === 'u') return true;
+            return false
+          },
+          'i': (d) => {
+            if (d.c === 'i') return true;
+            return false
+          },
+          'p': (d) => {
+            if (d.c === 'p') return true;
+            return false
+          },
+        }
+      }
+    });
+    
+  const toolbar = new G6.ToolBar({
+      position: { x: 25, y: 10 },
+  });
+
+  const graph_ = new G6.Graph({
+  container: 'container',
+  width,
+  height,
+  layout: {
+      preventOverlap: true,
+      type: 'force',
+      nodeSpacing: 15,
+  },
+  defaultNode: {
+      size: 15,
+      lineWidth: 0,
+      style: {
+          lineWidth: 0,
+      }
+  },
+  nodeStateStyles: {
+      activeByLegend: {
+          lineWidth: 3,
+          strokeOpacity: 0.5,
+          stroke: '#f00'
+      },
+      inactiveByLegend: {
+          opacity: 0.5,
+          lineWidth: 0,
+          strokeOpacity: 0,
+          stroke: ''
+      },    
+      dark: {
+          lineWidth: 0,
+          opacity: 0.2,
+      },
+      mouseenterState: {
+          lineWidth: 3,
+          strokeOpacity: 0.5,
+          // stroke: '#f00'
+          stroke: '#5B8FF9'
+      },
+      noLineWidthState: {
+          lineWidth: 0
+      }
+  },
+  edgeStateStyles: {
+      mouseenterState: {
+          lineWidth: 1.5,
+          stroke: '#999',
+      },
+  },
+  plugins: [legend, tooltip, toolbar],            
+  modes: {
+      //default: ['drag-canvas', 'drag-node', 'zoom-canvas',{
+        //  type: 'activate-relations',
+          //activeState: 'activeByLegend',
+         //inactiveState: 'inactiveByLegend',
+        //},],
+        default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
+    },
+  });
+  function getColor(node_type){
+      switch(node_type)
+      {
+          // 仓库
+          case "r":
+              return "#5B6FBF"
+          // 用户
+          case "u":
+              return "#DE6F6A"
+          // issue
+          case "i":
+              return "#9EC97F"
+          // pr
+          default:
+              return "#F2C96C"
+      }
+  }
+
+  function getSize(v, base, threshold){
+      if (v <= threshold){
+          return base * v
+      }else{
+          return getSize(v - threshold, base / 2, threshold) + threshold * base
+      }
+  }
+
+  function getKthLargest(nodes) {
+      nodes.sort((a, b) => b.v - a.v);
+      return nodes[topK - 1].v;
+  }
+
+  function getLabel(node_type, name){
+      switch(node_type)
+      {
+          // 仓库
+          case "r":
+              return name
+          // 用户
+          case "u":
+              return name
+          // issue
+          case "i":
+              return "#" + name
+          // pr
+          default:
+              return "#" + name
+      }
+  }
+  fetch('https://oss.x-lab.info/open_digger/github/X-lab2017/open-digger/project_openrank_detail/2022-12.json')
+  .then((res) => res.json())
+  .then((data) => {
+
+      nodes = data.nodes,
+      edges = data.links.map(function (link, i) {
+          link.source = link.s
+          link.target = link.t
+          link.weight = link.w
+          return Object.assign({}, link);
+          }),
+      
+      topK_v = getKthLargest(nodes);
+      nodes.forEach(node=>{
+          node.size = getSize(node.v, 6, 2)
+          node.style= {
+              fill: getColor(node.c),
+              lineWidth: 0,   
+            };
+          if (node.v >= topK_v){
+              node.label = getLabel(node.c, node.n)
+              node.labelCfg = {
+                  position: 'bottom',
+                }
+          }
+      });
+
+
+
+      graph_.data({
+          nodes: nodes,
+          edges: edges
+      });
+
+
+      graph_.render();
+
+      graph_.on('node:dragstart', function (e) {
+        graph_.layout();
+      refreshDragedNodePosition(e);
+      });
+      graph_.on('node:drag', function (e) {
+      const forceLayout = graph_.get('layoutController').layoutMethods[0];
+      forceLayout.execute();
+      refreshDragedNodePosition(e);
+      });
+      graph_.on('node:dragend', function (e) {
+      e.item.get('model').fx = null;
+      e.item.get('model').fy = null;
+      });
+      graph_.on('node:click', (evt) => {
+        const { item } = evt;
+        item.toFront();
+        // graph.setItemState(item, 'selected', true);
+      });
+      
+      function clearAllStats() {
+        graph_.setAutoPaint(false);
+        graph_.getNodes().forEach(function (node) {
+          graph_.clearItemStates(node);
+          graph_.setItemState(node, 'noLineWidthState', true);
+          });
+          graph_.getEdges().forEach(function (edge) {
+            graph_.clearItemStates(edge);
+            graph_.setItemState(edge, 'noLineWidthState', true);
+          });
+          graph_.paint();
+          graph_.setAutoPaint(true);
+        }
+        
+      // 鼠标移动到节点
+      graph_.on('node:mouseenter', function (e) {
+          const item = e.item;
+          graph_.setAutoPaint(false);
+          // 修改所有节点样式
+          graph_.getNodes().forEach(function (node) {
+            graph_.clearItemStates(node);
+            graph_.setItemState(node, 'dark', true);
+          });
+          // 修改选中节点样式
+          graph_.setItemState(item, 'dark', false);
+          graph_.setItemState(item, 'mouseenterState', true);
+          // 修改所有边的样式
+          graph_.getEdges().forEach(function (edge) {
+          if (edge.getSource() === item) {
+            graph_.setItemState(edge.getTarget(), 'dark', false);
+            graph_.setItemState(edge.getTarget(), 'mouseenterState', true);
+            graph_.setItemState(edge, 'mouseenterState', true);
+              edge.toFront();
+          } else if (edge.getTarget() === item) {
+            graph_.setItemState(edge.getSource(), 'dark', false);
+            graph_.setItemState(edge.getSource(), 'mouseenterState', true);
+            graph_.setItemState(edge, 'mouseenterState', true);
+              edge.toFront();
+          } else {
+            graph_.setItemState(edge, 'mouseenterState', false);
+          }
+          });
+          graph_.paint();
+          graph_.setAutoPaint(true);
+      });
+      graph_.on('node:mouseleave', clearAllStats);
+      graph_.on('canvas:click', clearAllStats);
+
+      if (typeof window !== 'undefined')
+      window.onresize = () => {
+          if (!graph_ || graph_.get('destroyed')) return;
+          if (!container || !container.scrollWidth || !container.scrollHeight) return;
+          graph_.changeSize(container.scrollWidth, container.scrollHeight);
+      };
+  });
+
+  function refreshDragedNodePosition(e) {
+  const model = e.item.get('model');
+  model.fx = e.x;
+  model.fy = e.y;
+  }
+</script>
+</body>
+
+<script type="text/javascript">
+
+
+var chartDomLine = document.getElementById('line');
+var myLineChart = echarts.init(chartDomLine);
+var optionLine;
+
+optionLine = {
+  // title: {
+  //   text: 'Repo Analys'
+  // },
+  tooltip: {
+    trigger: 'axis'
+  },
+  legend: {
+    data: ['Issue', 'Pull Requests', 'Users']
+  },
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  toolbox: {
+    feature: {
+      saveAsImage: {}
+    }
+  },
+  xAxis: {
+    type: 'category',
+    boundaryGap: false,
+    data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      name: 'Issue',
+      type: 'line',
+      stack: 'Total',
+      data: [10, 9, 20, 11, 12, 13, 15, 16, 11, 10, 11, 11]
+    },
+    {
+      name: 'Pull Requests',
+      type: 'line',
+      stack: 'Total',
+      data: [40, 42, 45, 30, 48, 52, 60, 45, 46, 34, 38, 37]
+    },
+    {
+      name: 'Users',
+      type: 'line',
+      stack: 'Total',
+      data: [10, 11, 10, 12, 13, 14, 10, 11, 10, 12, 14, 15]
+    },
+
+  ]
+};
+
+optionLine && myLineChart.setOption(optionLine);
+
+
+var chartDomPie = document.getElementById('pie');
+var myChartPie = echarts.init(chartDomPie);
+var optionPie;
+
+optionPie = {
+  tooltip: {
+    trigger: 'item'
+  },
+  legend: {
+    top: '5%',
+    left: 'center'
+  },
+  series: [
+    {
+      name: 'Developers',
+      type: 'pie',
+      radius: ['40%', '70%'],
+      avoidLabelOverlap: false,
+      itemStyle: {
+        borderRadius: 10,
+        borderColor: '#fff',
+        borderWidth: 2
+      },
+      label: {
+        show: false,
+        position: 'center'
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: 40,
+          fontWeight: 'bold'
+        }
+      },
+      labelLine: {
+        show: false
+      },
+      data: [
+        { value: 5, name: 'Core Developers' },
+        { value: 12, name: 'Temporary Developers' },
+        { value: 10, name: 'Issue Participants'}
+      ]
+    }
+  ]
+};
+
+optionPie && myChartPie.setOption(optionPie);
+
+
+
+</script>
+</html>

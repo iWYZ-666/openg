@@ -17,11 +17,17 @@
 
 </head>
 
+<style>
+  html, body {
+    height: 100%; 
+  }
+</style>
+
 <body>
 
   <canvas id="canvas"></canvas>
   <!-- 导航栏 -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 7%;>
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <img src="../static/logo.png" alt="Logo" style="width: 75px; height: auto;">
@@ -69,35 +75,35 @@
     </div>
   </nav>
 
-  <br>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-3 mx-auto">
+  <div style="height: 1%;"></div>
+
+  <div class="container-fluid" style="height: 92%;">
+    <div class="row" style="height: 100%;">
+
+      <div class="col-md-3 mx-auto" style="width: 20%;  height: 100%; display: flex; flex-direction: column;">
         <!-- 折线图 -->
         <!-- <h3 style="text-align: center;"> Repo Analysis </h3> -->
         <!-- <div></div> -->
-        <div class="panel line" id="line" style="height: 50%">
-
-
-
-          <div class="panel-footer"></div>
-
+        <div class="panel line" id="line" style="height: 49.5%; margin-bottom: auto;">
+            <div class="panel-footer"></div>
         </div>
-        <div class="panel pie" id="pie" style="height: 50%">
-          <div class="panel-footer"></div>
+        <div class="panel pie" id="pie" style="height: 49.5%; margin-top: auto;">
+            <div class="panel-footer"></div>
         </div>
-
       </div>
 
+
       <!-- 主图 -->
-      <div class="col-md-6">
+      <div class="col-md-6" style="width: 60%; height: 100%">
         <!-- <div id="main" style="width: 1200px;height:900px;text-align: center;"> -->
-        <div style="width: 1000px;height:900px;text-align: center;" id="container">
+          <div style="text-align: center; background-color: white; border: 1px solid #E3F3EC" id="container" ref="container_ref">
           <div class="panel-footer"></div>
         </div>
         <!-- <div id="main" style="width: 8.00rem;height:8.00rem;"></div> -->
       </div>
-      <div class="col-md-3 mx-auto">
+
+
+      <div class="col-md-3 mx-auto" style="width: 20%; height: 100%">
         <div id="details" class="bordered">
           <div class="card">
             <div class="card-body">
@@ -131,18 +137,18 @@
                   <th scope="col">repository</th>
                   <th scope="col">24.81</th>
                 </tr>
-                <tr>
+                <!-- <tr>
                   <th scope="col">64455</th>
                   <th scope="col">xgdyp</th>
                   <th scope="col">user</th>
                   <th scope="col">37.04</th>
-                </tr>
-                <tr>
+                </tr> -->
+                <!-- <tr>
                   <th scope="col">44367</th>
                   <th scope="col">open-digger-bot[bot]</th>
                   <th scope="col">user</th>
                   <th scope="col">33.86</th>
-                </tr>
+                </tr> -->
               </thead>
             </table>
           </div>
@@ -183,18 +189,18 @@
                         <th scope="col">user</th>
                         <th scope="col">33.86</th>
                       </tr>
-                      <tr>
+                      <!-- <tr>
                         <th scope="col">44269</th>
                         <th scope="col">X-lab2017/open-digger</th>
                         <th scope="col">repository</th>
                         <th scope="col">24.81</th>
-                      </tr>
-                      <tr>
+                      </tr> -->
+                      <!-- <tr>
                         <th scope="col">83676</th>
                         <th scope="col">longyanz</th>
                         <th scope="col">user</th>
                         <th scope="col">24.81</th>
-                      </tr>
+                      </tr> -->
                     </thead>
                   </table>
                 </div>
@@ -218,7 +224,9 @@
   <script>
     const container = document.getElementById('container');
     const width = container.scrollWidth;
-    const height = container.scrollHeight || 700;
+    const height = container.scrollHeight || document.documentElement.scrollHeight * 0.91;
+    // console.log(document.documentElement.scrollHeight * 0.92)
+    // console.log(document.body.scrollHeight)
     const topK = 10;
     const default_legend_size = 20
     const default_legend_font_size = 15
@@ -269,7 +277,7 @@
       // position: 'bottom-left',
       vertiSep: 12,
       horiSep: 24,
-      offsetY: -25,
+      offsetY: height - 75,
       padding: [4, 16, 8, 16],
       containerStyle: {
         fill: '',
@@ -311,7 +319,7 @@
     });
 
     const toolbar = new G6.ToolBar({
-      position: { x: 10, y: 10 },
+      position: { x: 25, y: 10 },
     });
 
     const graph_ = new G6.Graph({
@@ -542,7 +550,6 @@
 
 
   var chartDomLine = document.getElementById('line');
-  console.log(chartDom);
   var myLineChart = echarts.init(chartDomLine);
   var optionLine;
 
