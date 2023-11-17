@@ -53,9 +53,7 @@ def dataframe2json(df):
 
 
 def get_graph(name, year, month):
-    cypher = "MATCH (a)-[l]-(b) WHERE a.repository='{}' AND a.year='{}' AND a.month='{}' RETURN a,b,l".format(
-        name, year, month
-    )
+    cypher = f"MATCH (a)-[l]-(b) WHERE a.repository='{name}' AND a.year='{year}' AND a.month='{month}' RETURN a,b,l"
     graph = Graph(URL, password=PASSWORD, name=NAME)
     result = graph.run(cypher).to_data_frame()
     result = dataframe2json(result)
@@ -64,9 +62,7 @@ def get_graph(name, year, month):
 
 def get_min_graph(re_name, year, month, gid, kind):
     reverse_kinds = get_reverse_str(kind)
-    cypher = "MATCH (a:{})-[l]-(b:{}) WHERE a.id='{}' AND a.repository='{}' AND a.year='{}' AND a.month='{}' RETURN a,b,l".format(
-        kind, reverse_kinds, gid, re_name, year, month
-    )
+    cypher = f"MATCH (a:{kind})-[l]-(b:{reverse_kinds}) WHERE a.id='{gid}' AND a.repository='{re_name}' AND a.year='{year}' AND a.month='{month}' RETURN a,b,l"
     graph = Graph(URL, password=PASSWORD, name=NAME)
     result = graph.run(cypher).to_data_frame()
     result = dataframe2json(result)
@@ -87,10 +83,7 @@ def get_repository_names():
 def get_years(repository_name):
     conn = duckdb.connect(DB_PATH + DB_NAME)
     conn.execute(
-        "SELECT DISTINCT year FROM graphs WHERE name = '{}' ORDER BY year".format(
-            repository_name
-        )
-    )
+        f"SELECT DISTINCT year FROM graphs WHERE name = '{repository_name}' ORDER BY year")
     years_sql = conn.fetchall()
     years = []
     for year in years_sql:
@@ -102,9 +95,7 @@ def get_years(repository_name):
 def get_months(repository_name, year):
     conn = duckdb.connect(DB_PATH + DB_NAME)
     conn.execute(
-        "SELECT DISTINCT month FROM graphs WHERE name='{}' AND year={} ORDER BY month".format(
-            repository_name, year
-        )
+        f"SELECT DISTINCT month FROM graphs WHERE name='{repository_name}' AND year={year} ORDER BY month"
     )
     months_sql = conn.fetchall()
     months = []
