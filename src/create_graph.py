@@ -2,7 +2,7 @@ import re
 from py2neo import Node, Relationship, Graph, Subgraph
 import os
 import json
-import sqlite3
+import duckdb
 import util
 import json
 import time
@@ -20,9 +20,8 @@ NAME = config["name"]
 if os.path.exists(DB_PATH + DB_NAME):
     os.remove(DB_PATH + DB_NAME)
 # connected to sqlite
-conn = sqlite3.connect(DB_PATH + DB_NAME)
-cur = conn.cursor()
-cur.execute("CREATE TABLE graphs (name TEXT, year NUMBER, month NUMBER)")
+conn = duckdb.connect(DB_PATH + DB_NAME)
+conn.execute("CREATE TABLE graphs (name TEXT, year NUMBER, month NUMBER)")
 conn.commit()
 
 # connected to neo4j
@@ -46,7 +45,7 @@ for file_name in file_names:
     end_index = file_name.find(t)
     name = file_name[0 : end_index - 1]
     insert_sql = f"INSERT INTO graphs values ('{name}', {year}, {month})"
-    cur.execute(insert_sql)
+    conn.execute(insert_sql)
     node_list = []
     link_list = []
     with open(JSON_PATH + file_name, "r") as f:
@@ -78,5 +77,4 @@ for file_name in file_names:
                 link_list.append(rel)
         batch_load(node_list, link_list, my_graph)
     conn.commit()
-cur.close()
 conn.close()
