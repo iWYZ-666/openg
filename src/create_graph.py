@@ -19,10 +19,10 @@ table_dict = {"r": "repositories", "u": "users", "i": "issues", "p": "prs"}
 link_dict = {"ru": "repository_user", "ri": "repository_issue",
              "rp": "repository_pr", "ui": "user_issue", "up": "user_pr"}
 
-# clear sqlite
+# clear duckdb
 if os.path.exists(DB_PATH + DB_NAME):
     os.remove(DB_PATH + DB_NAME)
-# connected to sqlite
+# connected to duckdb
 conn = duckdb.connect(DB_PATH + DB_NAME)
 conn.execute(
     "CREATE TABLE graphs (name VARCHAR(30), year INTEGER, month INTEGER)")
