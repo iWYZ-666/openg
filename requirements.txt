@@ -27,3 +27,4 @@ six==1.16.0
 urllib3==2.0.3
 Werkzeug==2.2.3
 wheel==0.38.4
+duckdb==0.8.1
