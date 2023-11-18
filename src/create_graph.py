@@ -29,25 +29,6 @@ conn.execute(
 for table_name in table_dict.values():
     conn.execute(
         f"CREATE TABLE {table_name} (id INTEGER, name VARCHAR(30), year INTEGER, month INTEGER, rank DOUBLE)")
-# conn.execute(
-#     "CREATE TABLE users (id INTEGER, name VARCHAR(30), year INTEGER, month INTEGER, rank DOUBLE)")
-# conn.execute(
-#     "CREATE TABLE repositories (id INTEGER, name VARCHAR(30), year INTEGER, month INTEGER, rank DOUBLE)")
-# conn.execute(
-#     "CREATE TABLE issues (id INTEGER, name VARCHAR(30), year INTEGER, month INTEGER, rank DOUBLE)")
-# conn.execute("CREATE TABLE prs (id INTEGER, name VARCHAR(30), )")
-# conn.execute(
-#     "CREATE TABLE repository-user (fid INTEGER, sid INTEGER, year INTEGER, month INTEGER)")
-# conn.execute(
-#     "CREATE TABLE repository-issue (fid INTEGER, sid INTEGER, year INTEGER, month INTEGER)")
-# conn.execute(
-#     "CREATE TABLE repository-pr (fid INTEGER, sid INTEGER, year INTEGER, month INTEGER)")
-# conn.execute(
-#     "CREATE TABLE user-issue (fid INTEGER, sid INTEGER, year INTEGER, month INTEGER)")
-# conn.execute(
-#     "CREATE TABLE user-pr (fid INTEGER, sid INTEGER, year INTEGER, month INTEGER)")
-# conn.execute(
-#     "CREATE TABLE issue-pr (fid INTEGER, sid INTEGER, year INTEGER, month INTEGER)")
 for link_name in link_dict.values():
     conn.execute(
         f"CREATE TABLE {link_name} (fid INTEGER, sid INTEGER, year INTEGER, month INTEGER, weight DOUBLE)")
