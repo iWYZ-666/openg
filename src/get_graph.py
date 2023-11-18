@@ -92,7 +92,7 @@ def get_years(repository_name):
     return years
 
 
-def get_months(repository_name, year):
+def get_months(repository_name :str, year):
     conn = duckdb.connect(DB_PATH + DB_NAME)
     conn.execute(
         f"SELECT DISTINCT month FROM graphs WHERE name='{repository_name}' AND year={year} ORDER BY month"
@@ -103,6 +103,21 @@ def get_months(repository_name, year):
         months.append(month[0])
     conn.close()
     return months
+
+
+def get_users_by_repository():
+    raise NotImplemented("")
+
+
+def get_issues_by_repository():
+    raise NotImplemented("")
+
+
+def get_users_by_repository_year():
+    raise NotImplemented("")
+
+
+
 
 
 if __name__ == "__main__":
