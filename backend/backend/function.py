@@ -1,6 +1,4 @@
 import json
-import jwt
-from .settings import SECRET_KEY
 from django.http.response import JsonResponse
 
 
