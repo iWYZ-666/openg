@@ -1,7 +1,7 @@
 {
     "data_path": "../data/",
     "json_path": "../data/json/",
-    "max_workers": 10,
+    "max_workers": 8,
     "file_list": "X-lab2017/X-lab2017.github.io,hypertrons/hypertrons-crx,X-lab2017/open-digger",
     "db_path": "../data/db/",
     "db_name": "graph.db",
