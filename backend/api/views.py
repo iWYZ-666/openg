@@ -183,7 +183,7 @@ def get_Network_Analyze_info(line_data):
     for item in line_data["issue"]:
         total_i += item[1]
     for item in line_data["user"]:
-        total_i += item[1]
+        total_u += item[1]
     return total_r, total_i, total_u
 @check_method('POST')
 def Network_Analyze_view(request):
@@ -202,7 +202,7 @@ def Network_Analyze_view(request):
     # 3、OpenRank
     openRank = get_Network_Analyze_OpenRank(name, year)
     # 4、 request、pr、issue总数 + 查询内容
-    request, user, issue = get_Network_Analyze_info(line_data)
+    request, issue, user = get_Network_Analyze_info(line_data)
     return JsonResponse({
         "info": {
             "request": request,
