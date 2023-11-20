@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/iWYZ-666/openg/blob/main/img/logo.png?raw=true" style="width:25%;" /></p>
+<p align="center"><img src="https://github.com/iWYZ-666/openg/blob/main/img/logo.png?raw=true" style="width:10%;" /></p>
 
 本项目为OpenSODA | OpenDigger 开源软件生态数据分析挖掘平台挑战赛的参赛项目，赛题为**W3：开源协作网络可视化**，队名为**新奥尔良鹈鹕**，队伍成员包括[胡展翊](https://github.com/Rainysponge)、[卫涛](https://github.com/JackWeiw)、[程奂仑](https://github.com/iWYZ-666)、[刘雨石](https://github.com/Liuyushiii)。
 
